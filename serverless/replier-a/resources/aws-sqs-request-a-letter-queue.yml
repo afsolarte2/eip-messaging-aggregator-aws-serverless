@@ -1,0 +1,37 @@
+Resources:
+  RequestALetterDlqSqsQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: ${self:custom.variables.request-a-letter-dlq-sqs-queue-name}
+      FifoQueue: true
+      # KmsMasterKeyId: ${self:custom.variables.kms-custom-master-key}
+      KmsMasterKeyId:
+        Ref: CustomMasterKey
+
+  RequestALetterSqsQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: ${self:custom.variables.request-a-letter-sqs-queue-name}
+      FifoQueue: true
+      KmsMasterKeyId:
+        Ref: CustomMasterKey
+      RedrivePolicy:
+        deadLetterTargetArn: { 'Fn::GetAtt': ['RequestALetterDlqSqsQueue', 'Arn'] }
+        maxReceiveCount: 5
+
+
+  RequestALetterSqsQueuePolicy:
+    Type: AWS::SQS::QueuePolicy
+    Properties:
+      Queues:
+        - Ref: RequestALetterSqsQueue
+        - Ref: RequesALetterSnsTopicSubscriptionDLQ
+      PolicyDocument:
+        Statement:
+          Effect: Allow
+          Principal: '*'
+          Action: sqs:SendMessage
+          Resource: '*'
+          Condition:
+            ArnEquals:
+              aws:SourceArn: ${self:custom.variables.request-sns-topic-arn}

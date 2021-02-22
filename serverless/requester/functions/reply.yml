@@ -1,0 +1,10 @@
+reply:
+  handler: handlers/reply.handler
+  events:
+    - stream:
+        type: kinesis
+        arn:
+          Fn::GetAtt:
+            - LettersKinesisStream
+            - Arn
+        consumer: true

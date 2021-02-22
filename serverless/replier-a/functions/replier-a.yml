@@ -1,0 +1,4 @@
+replierA:
+  handler: handlers/replier-a.handler
+  events:
+    - sqs: ${self:custom.variables.request-a-letter-sqs-queue-arn}

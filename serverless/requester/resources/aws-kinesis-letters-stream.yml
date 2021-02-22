@@ -1,0 +1,11 @@
+Resources:
+  LettersKinesisStream:
+    Type: AWS::Kinesis::Stream
+    Properties:
+      Name: ${self:custom.variables.letters-kinesis-stream-name}
+      ShardCount: 1
+      StreamEncryption:
+        EncryptionType: KMS
+        KeyId:
+          Ref: CustomMasterKey
+

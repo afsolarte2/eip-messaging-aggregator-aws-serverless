@@ -1,0 +1,9 @@
+Resources:
+  ReplyALetterSnsTopic:
+    Type: AWS::SNS::Topic
+    Properties:
+      ContentBasedDeduplication: false
+      FifoTopic: true
+      KmsMasterKeyId:
+        Ref: CustomMasterKey
+      TopicName: ${self:custom.variables.reply-a-sns-topic-name}

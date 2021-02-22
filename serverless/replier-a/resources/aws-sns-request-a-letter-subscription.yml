@@ -1,0 +1,23 @@
+Resources:
+  RequesALetterSnsTopicSubscriptionDLQ:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: ${self:custom.variables.request-a-letter-subscription-dlq-sqs-queue-name}
+      FifoQueue: true
+      KmsMasterKeyId:
+        Ref: CustomMasterKey
+
+  RequestALetterSnsTopicSubscription:
+    Type: AWS::SNS::Subscription
+    Properties:
+      Endpoint: { "Fn::GetAtt": ["RequestALetterSqsQueue", "Arn"] }
+      Protocol: sqs
+      RawMessageDelivery: true
+      FilterPolicy:
+        event:
+          - requestLetter
+      TopicArn:
+        Ref: RequestLetterSnsTopic
+      RedrivePolicy:
+        deadLetterTargetArn:
+          { "Fn::GetAtt": ["RequesALetterSnsTopicSubscriptionDLQ", "Arn"] }
