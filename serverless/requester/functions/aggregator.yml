@@ -1,4 +1,4 @@
-beforeAggregator:
+aggregator:
   handler: handlers/aggregator.handler
   events:
     - sqs: ${self:custom.variables.reply-letter-sqs-queue-arn}

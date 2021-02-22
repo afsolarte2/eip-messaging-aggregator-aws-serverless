@@ -1,18 +1,10 @@
 'use strict';
 
-const SQS = require('aws-sdk/clients/sqs');
-const SNS = require('aws-sdk/clients/sns');
+const AWS = require('../services/aws')
 
 module.exports.handler = async event => {
-  const sns = new SNS({
-    region: 'us-east-1',
-    apiVersion: '2010-03-31'
-  })
-
-  const sqs = new SQS({
-    region: 'us-east-1',
-    apiVersion: '2012-11-05'
-  })
+  const sns = AWS.sns()
+  const sqs = AWS.sqs()
 
   const { Records } = event
   const { TOPIC_REPLY_A_ARN, QUEUE_REQUEST_A_LETTER_URL } = process.env

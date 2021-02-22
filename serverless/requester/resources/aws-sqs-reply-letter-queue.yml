@@ -18,7 +18,6 @@ Resources:
         deadLetterTargetArn: { 'Fn::GetAtt': ['ReplyLetterDlqSqsQueue', 'Arn'] }
         maxReceiveCount: 5
 
-
   ReplyLetterSqsQueuePolicy:
     Type: AWS::SQS::QueuePolicy
     Properties:

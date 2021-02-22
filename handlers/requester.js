@@ -1,14 +1,10 @@
 'use strict';
 
-const SNS = require('aws-sdk/clients/sns');
+const AWS = require('../services/aws')
 const { v4: uuidv4 } = require('uuid');
 
 module.exports.handler = async event => {
-  const sns = new SNS({
-    region: 'us-east-1',
-    apiVersion: '2010-03-31'
-  })
-
+  const sns = AWS.sns()
   const messagesToSend = 1
 
   const { TOPIC_REQUEST_ARN } = process.env

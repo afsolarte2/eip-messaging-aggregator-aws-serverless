@@ -45,7 +45,7 @@ Resources:
             Principal:
               AWS:
                 - arn:aws:sts::#{AWS::AccountId}:assumed-role/${self:service}-${self:provider.stage}-#{AWS::Region}-lambdaRole/${self:service}-${self:provider.stage}-requester
-                - arn:aws:sts::#{AWS::AccountId}:assumed-role/${self:service}-${self:provider.stage}-#{AWS::Region}-lambdaRole/${self:service}-${self:provider.stage}-replierA
+                # - arn:aws:sts::#{AWS::AccountId}:assumed-role/${self:service}-${self:provider.stage}-#{AWS::Region}-lambdaRole/${self:service}-${self:provider.stage}-replierA
                 - arn:aws:sts::#{AWS::AccountId}:assumed-role/${self:service}-${self:provider.stage}-#{AWS::Region}-lambdaRole/${self:service}-${self:provider.stage}-replierB
                 - arn:aws:sts::#{AWS::AccountId}:assumed-role/${self:service}-${self:provider.stage}-#{AWS::Region}-lambdaRole/${self:service}-${self:provider.stage}-beforeAggregator
                 - arn:aws:sts::#{AWS::AccountId}:assumed-role/${self:service}-${self:provider.stage}-#{AWS::Region}-lambdaRole/${self:service}-${self:provider.stage}-reply
