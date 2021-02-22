@@ -39,7 +39,7 @@ provider:
 
 functions:
   # Requester
-  - ${file(serverless/requester/functions/before-aggregator.yml)}
+  - ${file(serverless/requester/functions/aggregator.yml)}
   - ${file(serverless/requester/functions/reply.yml)}
   - ${file(serverless/requester/functions/requester.yml)}
 

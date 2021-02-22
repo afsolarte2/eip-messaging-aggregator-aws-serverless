@@ -22,7 +22,7 @@ module.exports.handler = async event => {
     const letter = 'B'
 
     console.log('uuid', uuid)
-    console.log('letter', result)
+    console.log('letter', letter)
 
     const deduplicationId = `${uuid}-${Math.floor(new Date().getTime() / 1000.0)}`
     const messageBody = JSON.stringify({
