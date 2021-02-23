@@ -1,6 +1,6 @@
 const SQS = require('aws-sdk/clients/sqs')
 const SNS = require('aws-sdk/clients/sns')
-const Kinesis = require('aws-sdk/clients/kinesis')
+const DynamoDb = require('aws-sdk/clients/dynamodb')
 
 class AWS {
   static sqs = () => {
@@ -17,10 +17,9 @@ class AWS {
     })
   }
 
-  static kinesis = () => {
-    return new Kinesis({
-      region: 'us-east-1',
-      apiVersion: '2013-12-02'
+  static dynamoDbDocumentClient = () => {
+    return new DynamoDb.DocumentClient({
+      region: 'us-east-1'
     })
   }
 }

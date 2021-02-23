@@ -1,0 +1,22 @@
+Resources:
+  DynamoDbAggregatorTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      AttributeDefinitions:
+        - AttributeName: uuid
+          AttributeType: S
+      BillingMode: PAY_PER_REQUEST
+      KeySchema:
+        - AttributeName: uuid
+          KeyType: HASH
+      SSESpecification:
+        SSEEnabled: true
+      StreamSpecification:
+        StreamViewType: NEW_AND_OLD_IMAGES
+      TableName: ${self:provider.environment.AGGREGATOR_TABLE_NAME}
+      Tags:
+        - Key: Name
+          Value: ${self:provider.environment.AGGREGATOR_TABLE_NAME}
+      TimeToLiveSpecification:
+        AttributeName: timeToLive
+        Enabled: true

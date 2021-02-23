@@ -1,56 +1,50 @@
 'use strict'
 
+const moment = require('moment')
 const AWS = require('../services/aws')
 
 module.exports.handler = async event => {
-  const kinesis = AWS.kinesis()
-
-  const { KINESIS_STREAM_NAME } = process.env
   const { Records } = event
+  const sqs = AWS.sqs()
 
-  console.log(event)
-
-  for (const { body, receiptHandle } of Records) {
+  for (const { receiptHandle, body, attributes, eventSourceARN } of Records) {
     const { uuid, letter } = JSON.parse(body)
+    const { MessageGroupId } = attributes
 
-    var params = {
-      Data: JSON.stringify({ uuid, letter }),
-      ExplicitHashKey: '12345',
-      PartitionKey: uuid,
-      StreamName: KINESIS_STREAM_NAME
-    }
+    await store(uuid, MessageGroupId, letter)
 
     try {
-      const kinesisResult = await kinesis.putRecords(params).promise()
+      const [, , , region, accountId, queueName] = eventSourceARN.split(':')
 
-      console.log(kinesisResult)
-    } catch (error) {
-      console.error(error)
-    }
-
-    /*try {
       const sqsParams = {
-        QueueUrl: QUEUE_REPLY_LETTER_URL,
+        QueueUrl: `https://sqs.${region}.amazonaws.com/${accountId}/${queueName}`,
         ReceiptHandle: receiptHandle
       }
 
-      const deleteSqsMessagePromise = await sqs.deleteMessage(sqsParams).promise()
-
-      console.log(deleteSqsMessagePromise)
+      await sqs.deleteMessage(sqsParams).promise()
     } catch (error) {
       console.error(error, error.stack);
-    }*/
+    }
+  }
+}
+
+const store = async (uuid, part, response) => {
+  const { AGGREGATOR_TABLE_NAME } = process.env
+  const documentClient = AWS.dynamoDbDocumentClient()
+
+  const params = {
+    TableName: AGGREGATOR_TABLE_NAME,
+    Key: { uuid },
+    UpdateExpression: `set #part = :part, #timeToLive = :timeToLive`,
+    ExpressionAttributeNames: {
+      '#part': part,
+      '#timeToLive': 'timeToLive'
+    },
+    ExpressionAttributeValues: {
+      ':part': response,
+      ':timeToLive': moment().add(1, 'day').unix()
+    }
   }
 
-  return {
-    statusCode: 200,
-    body: JSON.stringify(
-      {
-        message: 'Go Serverless v1.0! Your function executed successfully!',
-        input: event,
-      },
-      null,
-      2
-    ),
-  }
+  await documentClient.update(params).promise()
 }

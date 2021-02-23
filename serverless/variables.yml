@@ -28,7 +28,7 @@ reply-b-letter-dlq-sqs-queue-name: sqs-${self:provider.stage}-queue-reply-b-lett
 reply-b-letter-dlq-sqs-queue-arn: arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:${self:custom.variables.reply-b-letter-dlq-sqs-queue-name}
 reply-b-letter-subscription-dlq-sqs-queue-name: sqs-${self:provider.stage}-queue-reply-b-letter-subscription-dlq.fifo
 
-letters-kinesis-stream-name: kinesis-${self:provider.stage}-stream-letters
+aggregator-dynamodb-table-name: ${self:service}-dynamodb-${self:provider.stage}-table-aggregator
 ### REQUESTER ###
 
 

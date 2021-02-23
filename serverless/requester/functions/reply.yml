@@ -2,9 +2,6 @@ reply:
   handler: handlers/reply.handler
   events:
     - stream:
-        type: kinesis
+        type: dynamodb
         arn:
-          Fn::GetAtt:
-            - LettersKinesisStream
-            - Arn
-        consumer: true
+          Fn::GetAtt: [DynamoDbAggregatorTable, StreamArn]

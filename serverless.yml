@@ -25,6 +25,17 @@ provider:
   iamRoleStatements:
     - Effect: Allow
       Action:
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+        - dynamodb:Query
+        - dynamodb:DescribeStream
+        - dynamodb:GetShardIterator
+        - dynamodb:GetRecords
+      Resource:
+        - { 'Fn::GetAtt': ['DynamoDbAggregatorTable', 'Arn'] }
+    - Effect: Allow
+      Action:
         - SNS:Publish
         - SNS:Subscribe
       Resource:
@@ -35,11 +46,6 @@ provider:
       Action:
         - kms:Decrypt
       Resource: "*"
-    - Effect: Allow
-      Action:
-        - kinesis:PutRecord
-      Resource:
-        Fn::GetAtt: [ LettersKinesisStream, Arn ]
 
 functions:
   # Requester
@@ -61,7 +67,7 @@ resources:
   - ${file(serverless/communication-bridge/resources/aws-sns-replier-b-topic.yml)}
 
   # Requester
-  - ${file(serverless/requester/resources/aws-kinesis-letters-stream.yml)}
+  - ${file(serverless/requester/resources/aws-dynamodb-aggregator-table.yml)}
   - ${file(serverless/requester/resources/aws-sns-reply-a-letter-subscription.yml)}
   - ${file(serverless/requester/resources/aws-sns-reply-b-letter-subscription.yml)}
   - ${file(serverless/requester/resources/aws-sqs-reply-a-letter-queue.yml)}
