@@ -27,7 +27,7 @@ module.exports.handler = async event => {
         Message: messageBody,
         TopicArn: TOPIC_REPLY_B_ARN,
         MessageDeduplicationId: deduplicationId,
-        MessageGroupId: 'Replier',
+        MessageGroupId: 'ReplierB',
         MessageAttributes: {
           event: {
             DataType: 'String',

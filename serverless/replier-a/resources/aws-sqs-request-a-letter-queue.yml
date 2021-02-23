@@ -25,7 +25,7 @@ Resources:
     Properties:
       Queues:
         - Ref: RequestALetterSqsQueue
-        - Ref: RequesALetterSnsTopicSubscriptionDLQ
+        - Ref: RequestALetterSnsTopicSubscriptionDLQ
       PolicyDocument:
         Statement:
           Effect: Allow

@@ -10,7 +10,7 @@ Resources:
   ReplyALetterSnsTopicSubscription:
     Type: AWS::SNS::Subscription
     Properties:
-      Endpoint: { "Fn::GetAtt": ["ReplyLetterSqsQueue", "Arn"] }
+      Endpoint: { "Fn::GetAtt": ["ReplyALetterSqsQueue", "Arn"] }
       Protocol: sqs
       RawMessageDelivery: true
       FilterPolicy:

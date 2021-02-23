@@ -1,4 +1,5 @@
 aggregator:
   handler: handlers/aggregator.handler
   events:
-    - sqs: ${self:custom.variables.reply-letter-sqs-queue-arn}
+    - sqs: ${self:custom.variables.reply-a-letter-sqs-queue-arn}
+    # - sqs: ${self:custom.variables.reply-b-letter-sqs-queue-arn}

@@ -13,25 +13,23 @@ request-sns-topic-arn: arn:aws:sns:#{AWS::Region}:#{AWS::AccountId}:${self:custo
 
 
 
-
-
 ### REQUESTER ###
-reply-letter-sqs-queue-name: sqs-${self:provider.stage}-queue-reply-letter.fifo
-reply-letter-sqs-queue-arn: arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:${self:custom.variables.reply-letter-sqs-queue-name}
-reply-letter-sqs-queue-url: https://sqs.#{AWS::Region}.amazonaws.com/#{AWS::AccountId}/${self:custom.variables.reply-letter-sqs-queue-name}
+reply-a-letter-sqs-queue-name: sqs-${self:provider.stage}-queue-reply-a-letter.fifo
+reply-a-letter-sqs-queue-arn: arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:${self:custom.variables.reply-a-letter-sqs-queue-name}
+reply-a-letter-sqs-queue-url: https://sqs.#{AWS::Region}.amazonaws.com/#{AWS::AccountId}/${self:custom.variables.reply-a-letter-sqs-queue-name}
+reply-a-letter-dlq-sqs-queue-name: sqs-${self:provider.stage}-queue-reply-a-letter-dlq.fifo
+reply-a-letter-dlq-sqs-queue-arn: arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:${self:custom.variables.reply-a-letter-dlq-sqs-queue-name}
+reply-a-letter-subscription-dlq-sqs-queue-name: sqs-${self:provider.stage}-queue-reply-a-letter-subscription-dlq.fifo
 
-reply-letter-dlq-sqs-queue-name: sqs-${self:provider.stage}-queue-reply-letter-dlq.fifo
-reply-letter-dlq-sqs-queue-arn: arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:${self:custom.variables.reply-letter-dlq-sqs-queue-name}
+reply-b-letter-sqs-queue-name: sqs-${self:provider.stage}-queue-reply-b-letter.fifo
+reply-b-letter-sqs-queue-arn: arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:${self:custom.variables.reply-b-letter-sqs-queue-name}
+reply-b-letter-sqs-queue-url: https://sqs.#{AWS::Region}.amazonaws.com/#{AWS::AccountId}/${self:custom.variables.reply-b-letter-sqs-queue-name}
+reply-b-letter-dlq-sqs-queue-name: sqs-${self:provider.stage}-queue-reply-b-letter-dlq.fifo
+reply-b-letter-dlq-sqs-queue-arn: arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:${self:custom.variables.reply-b-letter-dlq-sqs-queue-name}
+reply-b-letter-subscription-dlq-sqs-queue-name: sqs-${self:provider.stage}-queue-reply-b-letter-subscription-dlq.fifo
 
 letters-kinesis-stream-name: kinesis-${self:provider.stage}-stream-letters
-
-reply-a-letter-subscription-dlq-sqs-queue-name: sqs-${self:provider.stage}-queue-reply-a-letter-subscription-dlq.fifo
-reply-b-letter-subscription-dlq-sqs-queue-name: sqs-${self:provider.stage}-queue-reply-b-letter-subscription-dlq.fifo
 ### REQUESTER ###
-
-
-
-
 
 
 
@@ -48,11 +46,6 @@ request-a-letter-subscription-dlq-sqs-queue-name: sqs-${self:provider.stage}-que
 
 
 
-
-
-
-
-
 ### REPLIER B ###
 request-b-letter-sqs-queue-name: sqs-${self:provider.stage}-queue-request-b-letter.fifo
 request-b-letter-sqs-queue-arn: arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:${self:custom.variables.request-b-letter-sqs-queue-name}
@@ -62,4 +55,4 @@ request-b-letter-dlq-sqs-queue-name: sqs-${self:provider.stage}-queue-request-b-
 request-b-letter-dlq-sqs-queue-arn: arn:aws:sqs:#{AWS::Region}:#{AWS::AccountId}:${self:custom.variables.request-b-letter-dlq-sqs-queue-name}
 
 request-b-letter-subscription-dlq-sqs-queue-name: sqs-${self:provider.stage}-queue-request-b-letter-subscription-dlq.fifo
-### REPLIER A ###
+### REPLIER B ###
