@@ -46,26 +46,26 @@ functions:
   - ${file(serverless/replier-a/functions/replier-a.yml)}
 
   # Replier B
-  # - ${file(serverless/replier-b/functions/replier-b.yml)}
+  - ${file(serverless/replier-b/functions/replier-b.yml)}
 
 resources:
   # Communication bridge
   - ${file(serverless/communication-bridge/resources/aws-kms-key.yml)}
   - ${file(serverless/communication-bridge/resources/aws-sns-requester-topic.yml)}
   - ${file(serverless/communication-bridge/resources/aws-sns-replier-a-topic.yml)}
-  # - ${file(serverless/communication-bridge/resources/aws-sns-replier-b-topic.yml)}
+  - ${file(serverless/communication-bridge/resources/aws-sns-replier-b-topic.yml)}
 
   # Requester
   - ${file(serverless/requester/resources/aws-kinesis-letters-stream.yml)}
   - ${file(serverless/requester/resources/aws-sns-reply-a-letter-subscription.yml)}
-  # - ${file(serverless/requester/resources/aws-sns-reply-b-letter-subscription.yml)}
+  - ${file(serverless/requester/resources/aws-sns-reply-b-letter-subscription.yml)}
   - ${file(serverless/requester/resources/aws-sqs-reply-a-letter-queue.yml)}
-  # - ${file(serverless/requester/resources/aws-sqs-reply-b-letter-queue.yml)}
+  - ${file(serverless/requester/resources/aws-sqs-reply-b-letter-queue.yml)}
 
   # Replier A
   - ${file(serverless/replier-a/resources/aws-sns-request-a-letter-subscription.yml)}
   - ${file(serverless/replier-a/resources/aws-sqs-request-a-letter-queue.yml)}
 
   # Replier B
-  # - ${file(serverless/replier-b/resources/aws-sns-request-b-letter-subscription.yml)}
-  # - ${file(serverless/replier-b/resources/aws-sqs-request-b-letter-queue.yml)}
+  - ${file(serverless/replier-b/resources/aws-sns-request-b-letter-subscription.yml)}
+  - ${file(serverless/replier-b/resources/aws-sqs-request-b-letter-queue.yml)}
