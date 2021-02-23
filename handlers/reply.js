@@ -1,31 +1,18 @@
 'use strict';
 
-const AWS = require('../services/aws')
-
 module.exports.handler = async event => {
-  const sqs = AWS.sqs()
+  console.log(JSON.stringify(event, null, 2))
 
   const { Records } = event
-  const { QUEUE_REPLY_LETTER_URL } = process.env
 
-  for (const { body, receiptHandle } of Records) {
-    const { uuid, result } = JSON.parse(body)
+  for (const { kinesis } of Records) {
+    const { data } = kinesis
 
-    console.log('uuid', uuid)
-    console.log('result', result)
+    console.log('base 64 data', data)
 
-    try {
-      const sqsParams = {
-        QueueUrl: QUEUE_REPLY_LETTER_URL,
-        ReceiptHandle: receiptHandle
-      }
+    var decoded = Buffer.from(data, 'base64').toString('utf-8');
 
-      const deleteSqsMessagePromise = await sqs.deleteMessage(sqsParams).promise()
-
-      console.log(deleteSqsMessagePromise)
-    } catch (error) {
-      console.error(error, error.stack);
-    }
+    console.log('decoded data', decoded)
   }
 
   return {

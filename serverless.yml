@@ -35,6 +35,11 @@ provider:
       Action:
         - kms:Decrypt
       Resource: "*"
+    - Effect: Allow
+      Action:
+        - kinesis:PutRecord
+      Resource:
+        Fn::GetAtt: [ LettersKinesisStream, Arn ]
 
 functions:
   # Requester

@@ -3,7 +3,7 @@ Resources:
     Type: AWS::Kinesis::Stream
     Properties:
       Name: ${self:custom.variables.letters-kinesis-stream-name}
-      ShardCount: 1
+      ShardCount: 2
       StreamEncryption:
         EncryptionType: KMS
         KeyId:

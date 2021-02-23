@@ -1,45 +1,46 @@
 'use strict'
 
-module.exports.handler = async event => {
-  console.log(event)
+const AWS = require('../services/aws')
 
+module.exports.handler = async event => {
+  const kinesis = AWS.kinesis()
+
+  const { KINESIS_STREAM_NAME } = process.env
   const { Records } = event
 
+  console.log(event)
+
   for (const { body, receiptHandle } of Records) {
-    console.log(body, receiptHandle)
+    const { uuid, letter } = JSON.parse(body)
+
+    var params = {
+      Data: JSON.stringify({ uuid, letter }),
+      ExplicitHashKey: '12345',
+      PartitionKey: uuid,
+      StreamName: KINESIS_STREAM_NAME
+    }
+
+    try {
+      const kinesisResult = await kinesis.putRecords(params).promise()
+
+      console.log(kinesisResult)
+    } catch (error) {
+      console.error(error)
+    }
+
+    /*try {
+      const sqsParams = {
+        QueueUrl: QUEUE_REPLY_LETTER_URL,
+        ReceiptHandle: receiptHandle
+      }
+
+      const deleteSqsMessagePromise = await sqs.deleteMessage(sqsParams).promise()
+
+      console.log(deleteSqsMessagePromise)
+    } catch (error) {
+      console.error(error, error.stack);
+    }*/
   }
-
-  //   Request Syntax
-  //   {
-  //     "Records": [
-  //        {
-  //           "Data": blob,
-  //           "ExplicitHashKey": "string",
-  //           "PartitionKey": "string"
-  //        }
-  //     ],
-  //     "StreamName": "string"
-  //  }
-
-  // kinesis.putRecord(params, function (err, data) {
-  //   if (err) console.log(err, err.stack)
-  //   // an error occurred
-  //   else console.log(data) // successful response
-  // })
-
-  //   Response Syntax
-  //   {
-  //     "EncryptionType": "string",
-  //     "FailedRecordCount": number,
-  //     "Records": [
-  //        {
-  //           "ErrorCode": "string",
-  //           "ErrorMessage": "string",
-  //           "SequenceNumber": "string",
-  //           "ShardId": "string"
-  //        }
-  //     ]
-  //  }
 
   return {
     statusCode: 200,
