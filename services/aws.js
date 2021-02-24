@@ -3,6 +3,8 @@ const SNS = require('aws-sdk/clients/sns')
 const DynamoDb = require('aws-sdk/clients/dynamodb')
 
 class AWS {
+  static dynamoDbConverter = () => DynamoDb.Converter
+
   static sqs = () => {
     return new SQS({
       region: 'us-east-1',
